@@ -20,7 +20,7 @@ node {
 
           /* Zip the lambda function */
           stage("Build Serverless App") {
-            sh(script: "zip lamdba_function.py")
+            sh(script: "zip -r lambda.zip lamdba_function.py")
           }
 
           /* Test the lambda function */
