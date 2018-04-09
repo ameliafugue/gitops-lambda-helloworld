@@ -25,16 +25,17 @@ node {
 
           /* Test the lambda function */
           stage("Testing Serverless App") {
-            sh(script: "lwc LambdaFunction.lw", returnStatus: true)
+            sh(script: "lwc LambdaFunction.lw")
+            sh(script: "fugue run LambdaFunction.lw -a HelloWorldLambda --dry-run")
           }
 
           /* Deploy the lambda function */
           stage("Deploy Serverless App") {
-            def cmdStatusCode = sh(script: "ls", returnStatus: true)
+            def cmdStatusCode = sh(script: "fugue status HelloWorldLambda", returnStatus: true)
             if(cmdStatusCode == 0) {
-              sh(script: "ls", returnStatus: true)
+              sh(script: "fugue update HelloWorldLambda LambdaFunction.lw -y")
             } else {
-              sh(script: "ls", returnStatus: true)
+              sh(script: "fugue run LambdaFunction.lw -a HelloWorldLambda")
             }
           }
         }
