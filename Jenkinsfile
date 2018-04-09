@@ -20,17 +20,12 @@ node {
 
           /* Zip the lambda function */
           stage("Build Serverless App") {
-            sh(script: "zip -r lambda.zip lambda_function.py")
+            sh(script: "zip -r lambda_function.zip lambda_function.py")
           }
 
           /* Test the lambda function */
           stage("Testing Serverless App") {
-            def cmdStatusCode = sh(script: "ls", returnStatus: true)
-            if(cmdStatusCode == 0) {
-              sh(script: "ls", returnStatus: true)
-            } else {
-              sh(script: "ls", returnStatus: true)
-            }
+            sh(script: "lwc LambdaFunction.lw", returnStatus: true)
           }
 
           /* Deploy the lambda function */
