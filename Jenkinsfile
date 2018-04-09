@@ -26,7 +26,12 @@ node {
           /* Test the lambda function */
           stage("Testing Serverless App") {
             sh(script: "lwc LambdaFunction.lw")
-            sh(script: "fugue run LambdaFunction.lw -a HelloWorldLambda --dry-run")
+            def cmdStatusCode = sh(script: "fugue status HelloWorldLambda", returnStatus: true)
+            if(cmdStatusCode == 0) {
+              sh(script: "fugue update HelloWorldLambda LambdaFunction.lw -y --dry-run")
+            } else {
+              sh(script: "fugue run LambdaFunction.lw -a HelloWorldLambda --dry-run")
+            }
           }
 
           /* Deploy the lambda function */
